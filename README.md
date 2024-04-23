@@ -1,4 +1,4 @@
-# Reactntive
+# React Native
 
 ![Reactntive Logo](https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcR_lzMuvuq_Pwu0bshc71kLVOJUGqKUMLdUUSWehf0Jfg&s)
 
