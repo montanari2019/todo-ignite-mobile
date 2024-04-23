@@ -121,6 +121,55 @@ export const styles = StyleSheet.create({
     fontSize: 18,
     color: "#FFFFFF",
     fontWeight: "bold",
-  }
+  },
+
+
+  buttonClick:{
+      width: 20,
+      height: 20,
+      borderRadius: 150,
+      backgroundColor: "#5E60CE",
+      justifyContent: "center",
+      alignItems: "center",
+  },
+
+  buttonNotClick:{
+    width: 20,
+    height: 20,
+    borderRadius: 150,
+    borderColor: "#4EA8DE",
+    backgroundColor: "transparent",
+    borderWidth: 2,
+
   
+    justifyContent: "center",
+    alignItems: "center",
+  },
+
+
+  cardTaskContainer:{
+    marginTop: 16,
+    marginBottom: 16,
+    gap: 8,
+  },
+
+  cardTask:{
+
+    flexDirection: 'row',
+    gap: 8,
+    marginTop: 8,
+    backgroundColor: "#262626",
+    alignItems: 'center',
+    borderRadius: 10,
+    padding: 16,
+    justifyContent: "space-between",
+  },
+  
+
+  paragraphInfoText:{
+    fontSize: 16,
+    width: 250,
+    color: "#F2F2F2",
+    fontWeight: "normal",
+  },
 });
