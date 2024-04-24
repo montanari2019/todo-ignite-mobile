@@ -1,4 +1,5 @@
 import {
+  Alert,
   Image,
   ScrollView,
   Text,
@@ -10,27 +11,126 @@ import { styles } from "./styled";
 
 import LogoProjeto from "../../../assets/logoTodo.png";
 
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import { TaskListProps } from "./@types";
-import { ButtonCheck } from "../../components/ButtonCheck";
-import { ButtonTrash } from "../../components/ButtonTrash";
 import { NotItens } from "../../components/NotItens";
+import { AntDesign } from "@expo/vector-icons";
+import { Feather } from "@expo/vector-icons";
 
+const tasksListaDefault = [
+  {
+    id: Math.random().toString(),
+    title: "Comprar pão",
+    done: true,
+  },
+  {
+    id: Math.random().toString(),
+    title: "Comprar leite",
+    done: false,
+  },
+  {
+    id: Math.random().toString(),
+    title: "Comprar arroz",
+    done: true,
+  },
+];
 export function HomeListComponent() {
-  const [listTasks, setListTasks] = useState<TaskListProps[]>([]);
+  const [listTasks, setListTasks] = useState<TaskListProps[]>(tasksListaDefault);
   const [titleTaks, setTitleTask] = useState("");
+  const [contadorDoneTaks, setContadorDoneTask] = useState(0);
+
+  useEffect(() => {
+    if (listTasks.length > 0) {
+      const contador = listTasks.reduce((count, task) => {
+        return task.done ? count + 1 : count;
+      }, 0);
+
+      setContadorDoneTask(contador);
+    }else{
+      setContadorDoneTask(0);
+    }
+  }, [listTasks]);
 
   function handleAddTask() {
     const newTask = {
       id: Math.random().toString(),
       title: titleTaks,
-      done: true,
+      done: false,
     };
 
     setListTasks((preventState) => [...preventState, newTask]);
 
     setTitleTask("");
   }
+
+  function handleDoneTask(id: string) {
+    // console.log("CHmando função id:", id);
+    const filterTask = listTasks.filter((e) => e.id === id);
+
+    if (filterTask) {
+      if (filterTask[0].done == true) {
+        const taksDone = listTasks.map((index) => {
+          if (index.id === filterTask[0].id) {
+            return {
+              id: index.id,
+              title: index.title,
+              done: false,
+            };
+          } else {
+            return {
+              ...index,
+            };
+          }
+        });
+
+        setListTasks(taksDone);
+      } else {
+        const taksDone = listTasks.map((index) => {
+          if (index.id === filterTask[0].id) {
+            return {
+              id: index.id,
+              title: index.title,
+              done: true,
+            };
+          } else {
+            return {
+              ...index,
+            };
+          }
+        });
+
+        setListTasks(taksDone);
+      }
+    }
+  }
+
+  function handleRemoveTask(id: string) {
+    const filterTask = listTasks.filter((e) => e.id === id);
+  
+
+    if (filterTask) {
+      Alert.alert(
+        "Remover",
+        `Deseja remover a tarefa: ${filterTask[0].title}?`,
+        [
+          {
+            text: "Cancelar",
+            style: "cancel",
+          },
+          {
+            text: "Remover",
+            onPress: () => {
+              const taksDone = listTasks.filter((index) => {
+                return index.id !== filterTask[0].id;
+              });
+              setListTasks(taksDone);
+            },
+          },
+        ]
+      );
+    }
+  }
+
   return (
     <ScrollView style={styles.container}>
       <View style={styles.headerContainer}>
@@ -59,16 +159,16 @@ export function HomeListComponent() {
           <View style={styles.paragraphInfoDisplay}>
             <Text style={styles.paragraphCreate}>Criadas</Text>
             <View style={styles.paragraphBageInfo}>
-              <Text style={styles.paragraphBageInfoText}>{listTasks.length}</Text>
+              <Text style={styles.paragraphBageInfoText}>
+                {listTasks.length}
+              </Text>
             </View>
           </View>
           <View style={styles.paragraphInfoDisplay}>
             <Text style={styles.paragraphConclude}>Concluidas </Text>
             <View style={styles.paragraphBageInfo}>
               <Text style={styles.paragraphBageInfoText}>
-                {listTasks.reduce((count, task) => {
-                  return task.done ? count + 1 : count;
-                }, 0)}
+                {contadorDoneTaks}
               </Text>
             </View>
           </View>
@@ -81,9 +181,38 @@ export function HomeListComponent() {
             {listTasks.map((index) => {
               return (
                 <View style={styles.cardTask} key={index.id}>
-                  <ButtonCheck />
-                  <Text style={styles.paragraphInfoText}>{index.title}</Text>
-                  <ButtonTrash />
+                  <TouchableOpacity
+                    onPress={() => handleDoneTask(index.id)}
+                    style={
+                      index.done ? styles.buttonClick : styles.buttonNotClick
+                    }
+                  >
+                    <AntDesign
+                      name="check"
+                      size={18}
+                      color="#F2F2F2"
+                      style={
+                        index.done ? { display: "flex" } : { display: "none" }
+                      }
+                    />
+                  </TouchableOpacity>
+
+                  <Text
+                    style={
+                      index.done
+                        ? styles.paragraphDoneInfoText
+                        : styles.paragraphInfoText
+                    }
+                  >
+                    {index.title}
+                  </Text>
+
+                  <TouchableOpacity
+                    onPress={() => handleRemoveTask(index.id)}
+                    style={styles.buttonClickTrash}
+                  >
+                    <Feather name="trash-2" size={25} color="#808080" />
+                  </TouchableOpacity>
                 </View>
               );
             })}

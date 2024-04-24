@@ -125,26 +125,28 @@ export const styles = StyleSheet.create({
 
 
   buttonClick:{
-      width: 20,
-      height: 20,
-      borderRadius: 150,
-      backgroundColor: "#5E60CE",
-      justifyContent: "center",
-      alignItems: "center",
-  },
-
-  buttonNotClick:{
-    width: 20,
-    height: 20,
+    width: 28,
+    height: 28,
     borderRadius: 150,
-    borderColor: "#4EA8DE",
-    backgroundColor: "transparent",
+    backgroundColor: "#5E60CE",
     borderWidth: 2,
-
-  
+    borderColor: "#5E60CE",
     justifyContent: "center",
     alignItems: "center",
-  },
+},
+
+buttonNotClick:{
+  width: 28,
+  height: 28,
+  borderRadius: 150,
+  borderColor: "#4EA8DE",
+  backgroundColor: "transparent",
+  borderWidth: 2,
+
+
+  justifyContent: "center",
+  alignItems: "center",
+},
 
 
   cardTaskContainer:{
@@ -172,4 +174,24 @@ export const styles = StyleSheet.create({
     color: "#F2F2F2",
     fontWeight: "normal",
   },
+  paragraphDoneInfoText:{
+    fontSize: 16,
+    width: 250,
+    color: "#808080",
+    fontWeight: "normal",
+    textDecorationLine: 'line-through',
+  },
+
+  buttonClickTrash:{
+    width: 40,
+    height: 40,
+    // borderRadius: 10,
+    // borderColor: "#e25858",
+
+    backgroundColor: "#262626",
+    justifyContent: "center",
+    alignItems: "center",
+},
+
+  
 });
